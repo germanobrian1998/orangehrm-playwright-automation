@@ -8,7 +8,7 @@ export class DashboardPage {
   readonly firstNameInput: Locator
   readonly lastNameInput: Locator
   readonly saveButton: Locator
-  readonly employeeIdField: Locator
+  readonly personalDetailsHeader: Locator
 
   constructor(page: Page) {
 
@@ -24,7 +24,7 @@ export class DashboardPage {
 
     this.saveButton = page.getByRole('button', { name: 'Save' })
 
-    this.employeeIdField = page.locator('input[name="employeeId"]')
+    this.personalDetailsHeader = page.getByRole('heading', { name: 'Personal Details' })
 
   }
 
@@ -48,7 +48,9 @@ export class DashboardPage {
 
     await this.saveButton.click()
 
-    await this.employeeIdField.waitFor({ timeout: 60000 })
+    await this.page.waitForURL(/viewPersonalDetails/, { timeout: 60000 })
+
+    await expect(this.personalDetailsHeader).toBeVisible({ timeout: 60000 })
 
   }
 
