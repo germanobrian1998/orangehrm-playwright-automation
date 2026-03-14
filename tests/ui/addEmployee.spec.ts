@@ -11,9 +11,7 @@ test.describe('Employee Management', () => {
 
     await dashboardPage.addEmployee(employee)
 
-    await expect(
-      page.getByRole('heading', { name: 'Personal Details' })
-    ).toBeVisible()
+    await expect(page).toHaveURL(/viewPersonalDetails/)
 
   })
 

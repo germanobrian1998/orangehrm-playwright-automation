@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test'
+import { Page, Locator, expect } from '@playwright/test'
 
 export class DashboardPage {
 
@@ -32,8 +32,6 @@ export class DashboardPage {
 
     await this.page.goto('/web/index.php/dashboard/index')
 
-    await this.pimMenu.waitFor({ state: 'visible' })
-
     await this.pimMenu.click()
 
   }
@@ -42,15 +40,17 @@ export class DashboardPage {
 
     await this.addEmployeeButton.click()
 
-    await this.firstNameInput.waitFor()
-
     await this.firstNameInput.fill(employee.firstName)
 
     await this.lastNameInput.fill(employee.lastName)
 
+    // esperar que Save esté habilitado
+    await expect(this.saveButton).toBeEnabled()
+
     await this.saveButton.click()
 
-    await this.personalDetailsHeader.waitFor({ timeout: 60000 })
+    // esperar cambio de pantalla
+    await this.page.waitForURL(/viewPersonalDetails/, { timeout: 60000 })
 
   }
 
