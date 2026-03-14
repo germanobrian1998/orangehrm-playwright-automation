@@ -48,7 +48,10 @@ export class DashboardPage {
 
     await this.saveButton.click()
 
-    await this.page.waitForURL(/viewPersonalDetails/, { timeout: 60000 })
+    await this.page.waitForURL(/viewPersonalDetails/, {
+      timeout: 60000,
+      waitUntil: 'domcontentloaded'
+    })
 
     await expect(this.personalDetailsHeader).toBeVisible({ timeout: 60000 })
 
