@@ -1,46 +1,57 @@
-import { Page, Locator } from "@playwright/test";
+import { Page, Locator } from '@playwright/test'
 
 export class DashboardPage {
-  readonly page: Page;
-  readonly pimMenu: Locator;
-  readonly addEmployeeButton: Locator;
-  readonly firstNameInput: Locator;
-  readonly lastNameInput: Locator;
-  readonly saveButton: Locator;
+
+  readonly page: Page
+  readonly pimMenu: Locator
+  readonly addEmployeeButton: Locator
+  readonly firstNameInput: Locator
+  readonly lastNameInput: Locator
+  readonly saveButton: Locator
+  readonly personalDetailsHeader: Locator
 
   constructor(page: Page) {
-    this.page = page;
 
-    this.pimMenu = page.locator('a[href*="viewPimModule"]');
+    this.page = page
 
-    this.addEmployeeButton = page.getByRole("button", { name: "Add" });
+    this.pimMenu = page.locator('a[href*="viewPimModule"]')
 
-    this.firstNameInput = page.getByPlaceholder("First Name");
+    this.addEmployeeButton = page.getByRole('button', { name: 'Add' })
 
-    this.lastNameInput = page.getByPlaceholder("Last Name");
+    this.firstNameInput = page.getByPlaceholder('First Name')
 
-    this.saveButton = page.getByRole("button", { name: "Save" });
+    this.lastNameInput = page.getByPlaceholder('Last Name')
+
+    this.saveButton = page.getByRole('button', { name: 'Save' })
+
+    this.personalDetailsHeader = page.getByRole('heading', { name: 'Personal Details' })
+
   }
 
   async goToPIM() {
-    await this.page.goto("/web/index.php/dashboard/index");
 
-    await this.pimMenu.waitFor({ state: "visible" });
+    await this.page.goto('/web/index.php/dashboard/index')
 
-    await this.pimMenu.click();
+    await this.pimMenu.waitFor({ state: 'visible' })
+
+    await this.pimMenu.click()
+
   }
 
   async addEmployee(employee: any) {
-    await this.addEmployeeButton.click();
 
-    await this.firstNameInput.waitFor();
+    await this.addEmployeeButton.click()
 
-    await this.firstNameInput.fill(employee.firstName);
+    await this.firstNameInput.waitFor()
 
-    await this.lastNameInput.fill(employee.lastName);
+    await this.firstNameInput.fill(employee.firstName)
 
-    await this.saveButton.click();
+    await this.lastNameInput.fill(employee.lastName)
 
-    await this.page.waitForURL(/viewPersonalDetails/, { timeout: 60000 });
+    await this.saveButton.click()
+
+    await this.personalDetailsHeader.waitFor({ timeout: 60000 })
+
   }
+
 }
