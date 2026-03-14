@@ -48,8 +48,12 @@ export class DashboardPage {
 
     await this.saveButton.click()
 
+    // Increase timeout for Firefox which is slower
+    const isFirefox = this.page.context().browser()?.browserType().name() === 'firefox'
+    const timeout = isFirefox ? 90000 : 60000 // 90s for Firefox, 60s for others
+
     await this.page.waitForURL(/viewPersonalDetails/, {
-      timeout: 60000,
+      timeout: timeout,
       waitUntil: 'domcontentloaded'
     })
 
